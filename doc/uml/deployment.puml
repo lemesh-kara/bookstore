@@ -1,0 +1,29 @@
+@startuml deployment_diagram
+
+!theme plain
+
+title Deployment Diagram
+
+node "Web Browser" as WebBrowser {
+    artifact "HTML 5" as html
+}
+
+node "Server" as Server {
+    node "Application" as App
+    database "PostgreSQL" as DB
+
+    App --> DB
+}
+
+node "Internet" as Internet {
+    artifact "Bootstrap 5" as bootstrap
+    artifact "Vue 3" as vuejs
+    artifact "Vue router 4" as vuerouter
+    artifact "Axios 1.4.0" as axios
+    artifact "JS-Coockie 3.0.5" as axios
+}
+
+WebBrowser -up-> Server
+WebBrowser --> Internet
+
+@enduml

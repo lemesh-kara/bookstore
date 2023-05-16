@@ -1,0 +1,64 @@
+@startuml component_diagram
+
+!theme plain
+
+title Component Diagram
+
+' definitions
+
+[Database] as DB
+DB -- GORM
+
+component Application as App {
+    interface "HTTP" as Static
+    interface "REST JSON API" as JSON
+
+    [Storage]
+    [Handlers]
+    [Static Web Server] as StaticWebServer
+    [Middleware]
+
+    Handlers --> Middleware
+    Handlers --> Storage
+
+    Storage --> GORM : use
+
+    StaticWebServer -- Static
+
+    Handlers -- JSON
+}
+
+component Frontend as Front {
+    [Main]
+    [About Us] as AboutUs
+    [All books] as AllBooks
+    [Auth]
+    [Book]
+    [Cart]
+    [Contacts]
+    [FAQ]
+    [Feedback]
+    [Top books] as TopBooks
+
+    port Axios
+
+    Front -up-> Static : use
+    Axios --up-> JSON : use
+
+    Main --> Axios
+
+    Main --> AboutUs
+    Main --> AllBooks
+    Main --> Auth
+    Main --> Book
+    Main --> Cart
+    Main --> Contacts
+    Main --> FAQ
+    Main --> Feedback
+    Main --> TopBooks
+}
+
+' dependencies
+
+
+@enduml

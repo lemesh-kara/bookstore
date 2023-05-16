@@ -1,0 +1,114 @@
+@startuml use_case_diagram
+
+!theme plain
+skinparam actorStyle awesome
+left to right direction
+
+title Use Case Diagram
+
+' definitions
+
+' common
+
+(View all books) as ViewAll
+(View Top 10 books by review) as ViewTop
+(Search for book) as Search
+(View book) as ViewBook
+(View book pdf preview) as ViewPdf
+(View book's reviews) as ViewReview
+(Post feedback) as Feedback
+' (View FAQ page) as ViewFaq
+' (View About us page) as ViewAbout
+' (View Contacts page) as ViewContact
+
+
+' guest
+(Log In) as LogIn
+(Sign Up) as SignUp
+
+:Guest:
+
+' user
+(Add to cart) as AddToCart
+(View cart) as ViewCart
+(Remove from cart) as RemoveCart
+(Sign Out) as SignOut
+(Add review) as AddReview
+
+:User:
+
+' admin
+(Add book) as AddBook
+(Delete book) as DeleteBook
+(Manage books) as ManageBooks
+(Add user) as AddUser
+(View user) as ViewUser
+(Delete user) as DeleteUser
+(Manage users) as ManageUsers
+(View user's cart) as ViewUserCart
+(Application control) as AppControl
+(Database control) as DbControl
+(View feedbacks) as FeedbackSub
+
+:Admin:
+
+' diagram
+
+' guest
+
+:Guest: -down-> ViewAll
+:Guest: -down-> ViewTop
+:Guest: -down-> Search
+:Guest: -down-> ViewBook
+:Guest: -down-> ViewPdf
+:Guest: -down-> ViewReview
+:Guest: -down-> Feedback
+' :Guest: -down-> ViewFaq
+' :Guest: -down-> ViewAbout
+' :Guest: -down-> ViewContact
+
+
+:Guest: -down-> LogIn
+:Guest: -down-> SignUp
+
+'user
+
+:User: -up-> ViewAll
+:User: -up-> ViewTop
+:User: -up-> Search
+:User: -up-> ViewBook
+:User: -up-> ViewPdf
+:User: -up-> ViewReview
+:User: -up-> Feedback
+' :User: -up-> ViewFaq
+' :User: -up-> ViewAbout
+' :User: -up-> ViewContact
+
+:User: --> AddToCart
+:User: --> ViewCart
+:User: --> RemoveCart
+:User: --> SignOut
+:User: --> AddReview
+
+
+' admin
+
+:Admin: --> ManageBooks
+:Admin: --> ManageUsers
+
+:Admin: --> ViewUserCart
+:Admin: --> AppControl
+:Admin: --> DbControl
+:Admin: --> FeedbackSub
+
+:User: <|-- :Admin:
+
+ManageBooks ..> AddBook : include
+ManageBooks ..> DeleteBook : include
+
+ManageUsers ..> AddUser : include
+ManageUsers ..> ViewUser : include
+ManageUsers ..> DeleteUser : include
+
+
+@enduml

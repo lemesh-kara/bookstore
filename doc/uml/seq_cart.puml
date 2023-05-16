@@ -1,0 +1,59 @@
+@startuml sequence_cart_diagram
+
+!theme plain
+hide footbox
+
+title Cart Diagram
+
+' definitions
+
+actor User
+participant "Web browser" as Browser
+participant Application as App
+database PostgreSQL as DB
+
+activate App
+activate DB
+activate Browser
+
+' diagram
+
+' start interaction
+User -> Browser: Click "Buy" button
+
+' add to Cart
+Browser -> Browser: Check token\nexp. time
+
+alt Token expired
+    Browser ->> App ++: POST /user/refresh
+    App -> App: Validate token
+    alt Token invalid
+        Browser <<-- App: Error
+        User <-- Browser: Show error
+        Browser -> Browser: Redirect to Login
+    end
+    return JWT tokens
+end
+
+Browser ->> App ++: POST /cart
+
+App -> App: Validate token\nand data
+
+alt Invalid token or data
+    Browser <<-- App: Error
+    User <-- Browser: Show error
+end
+
+App -> DB: Save cart record
+App <-- DB
+
+alt Database error
+    App -> App: Log error
+    Browser <<-- App: Error
+    User <-- Browser: Show error
+end
+
+Browser <<-- App
+User <-- Browser: Show toast notification
+
+@enduml

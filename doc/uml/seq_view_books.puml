@@ -1,0 +1,35 @@
+@startuml sequence_view_books_diagram
+
+!theme plain
+hide footbox
+
+title View Books Diagram
+
+' definitions
+
+actor User
+participant "Web browser" as Browser
+participant Application as App
+database PostgreSQL as DB
+
+activate App
+activate DB
+
+' diagram
+
+' start interaction
+User -> Browser: Open page
+activate Browser
+
+Browser -> App ++: GET /
+return HTML + CSS + JS
+
+' render books
+Browser ->> App ++: GET /book
+App -> DB: Get books
+App <-- DB: Books
+Browser <<-- App --: Books
+Browser -> Browser: Render books
+User <-- Browser
+
+@enduml

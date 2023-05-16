@@ -1,0 +1,59 @@
+@startuml sequence_login_diagram
+
+!theme plain
+hide footbox
+
+title Login Diagram
+
+' definitions
+
+actor User
+participant "Web browser" as Browser
+participant Application as App
+database PostgreSQL as DB
+
+activate App
+activate DB
+
+activate Browser
+
+' diagram
+
+' start interaction
+User -> Browser: Click "Login/Sign Up"\nnavigation button
+
+Browser -> Browser: Render Auth\ncomponent
+User <-- Browser
+
+' login
+User -> Browser: Input data and\nclick button
+Browser -> Browser: Validate data
+
+alt Invalid data
+    User <-- Browser: Show error
+end
+
+Browser ->> App ++: POST /login
+App -> DB: Get user by username
+DB -> App: User data
+
+alt Database error
+    App -> App: Log error
+    Browser <<-- App: Error
+    User <-- Browser: Show error
+end
+
+App -> App: Validate data
+
+alt Invalid data
+    Browser <<-- App: Error
+    User <-- Browser: Show error
+end
+
+App -> App: Generate JWT tokens
+Browser <<-- App: JWT tokens
+Browser -> Browser: Save tokens in Cookies
+Browser -> Browser: Redirect to /
+Browser --> User
+
+@enduml

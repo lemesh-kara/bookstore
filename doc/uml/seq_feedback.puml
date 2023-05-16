@@ -1,0 +1,39 @@
+@startuml sequence_feedback_diagram
+
+!theme plain
+hide footbox
+
+title View Feedback Diagram
+
+' definitions
+
+actor User
+participant "Web browser" as Browser
+participant "formspree.io" as Form
+participant "Admin email service" as Email
+
+activate Email
+activate Form
+activate Browser
+
+' diagram
+
+' start interaction
+User -> Browser: Click "Feedback" navigation\nbutton in the footer
+Browser -> Browser: Render Feedback\ncomponent
+
+' submit form
+User -> Browser: Input data and\nclick button
+Browser -> Browser: Validate data
+
+alt Invalid data
+    User <-- Browser: Show error
+end
+Browser -> Form: POST to form's service
+Form -> Email: Send email to admin
+
+Form <-- Email
+Browser <-- Form: "Thanks" page from\nform's service
+User <-- Browser
+
+@enduml

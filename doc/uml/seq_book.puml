@@ -1,0 +1,70 @@
+@startuml sequence_book_diagram
+
+!theme plain
+hide footbox
+
+title Book Diagram
+
+' definitions
+
+actor User
+participant "Web browser" as Browser
+participant Application as App
+database PostgreSQL as DB
+
+activate App
+activate DB
+
+activate Browser
+
+' diagram
+
+' start interaction
+User -> Browser: Click "Go to Book"
+
+Browser -> Browser: Render Book\ncomponent
+
+' book
+Browser ->> App ++: GET /book/:id
+
+App -> DB: Get book by ID
+App <- DB: Book
+
+return Book
+
+Browser -> Browser: Render book
+
+alt User is authorized
+    Browser -> Browser: Render "Add review" form
+end
+
+Browser ->> App ++: GET /review/searchby/book/:id
+App -> DB: Get reviews
+App <-- DB
+
+alt Database error
+    App -> App: Log error
+    Browser <<-- App: Error
+    User <-- Browser: Show error
+end
+
+return Reviews
+Browser -> Browser: Render reviews
+User <-- Browser
+
+User -> Browser: Click "Open preview PDF"
+Browser -> Browser: Open new window
+Browser ->> App ++: GET /pdf/<name>
+App -> App: load pdf from\nthe filesystem
+
+alt File not found
+    Browser <<-- App: Error
+    User <-- Browser: Show error
+end
+
+return PDF
+Browser -> Browser: Render PDF in the new window
+
+User <-- Browser
+
+@enduml
