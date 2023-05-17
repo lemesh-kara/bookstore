@@ -9,7 +9,7 @@ export default {
 <div class = "container">
   <p class="fs-3">Feedback</p>
 
-  <form action="https://formspree.io/f/mnqyrjvk" method="POST">
+  <form action="https://formspree.io/f/xvonyljb" method="POST">
 
     <div class="mb-3 col-5">
       <label for="formControlInput1" class="form-label">Email address (leave empty to stay anonymous):</label>

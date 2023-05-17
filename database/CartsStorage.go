@@ -74,7 +74,10 @@ func (storage *CartsStorage) GetCartsByUserId(userID uint64, limit, offset uint6
 	if limit > 0 || offset > 0 {
 		err = storage.db.Debug().Offset(offset).Limit(limit).Preload("User").Preload("Book").Where("user_id = ?", userID).Find(&carts).Error
 	} else {
-		err = storage.db.Debug().Preload("User").Preload("Book").Where("user_id = ?", userID).Find(&carts).Error
+		err = storage.db.Preload("User").Preload("Book").Where("user_id = ?", userID).Find(&carts).Error
+		if err != nil {
+			err = storage.db.Preload("User").Preload("Book").Where("user_id = ?", userID).Find(&carts).Error
+		}
 	}
 
 	if err != nil {

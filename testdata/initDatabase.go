@@ -83,7 +83,7 @@ func createBooks() []model.Book {
 	
 
 	generatePublishedData := func() string {
-		return strconv.FormatInt(int64(2000+rand.Intn(20)), 10) + " Published by Shkindzer #" + strconv.FormatInt(int64(rand.Intn(6)), 10)
+		return strconv.FormatInt(int64(2000+rand.Intn(20)), 10) + " Published by Awesome Store #" + strconv.FormatInt(int64(rand.Intn(6)), 10)
 	}
 
 	return []model.Book{
@@ -113,11 +113,11 @@ func createBooks() []model.Book {
 
 func createUsers() []model.User {
 	return []model.User{
-		{UserShort: model.UserShort{Username: "nikonok", Password: hashPassword("123"), Email: "nikonok@nikonok.com", Role: "admin"}},
-		{UserShort: model.UserShort{Username: "user1", Password: hashPassword("111"), Email: "user1@nikonok.com", Role: "admin"}},
-		{UserShort: model.UserShort{Username: "user2", Password: hashPassword("222"), Email: "user2@nikonok.com", Role: "user"}},
-		{UserShort: model.UserShort{Username: "user3", Password: hashPassword("333"), Email: "user3@nikonok.com", Role: "user"}},
-		{UserShort: model.UserShort{Username: "user4", Password: hashPassword("444"), Email: "user4@nikonok.com", Role: "user"}},
+		{UserShort: model.UserShort{Username: "admin", Password: hashPassword("123"), Email: "admin@bookstore.com", Role: "admin"}},
+		{UserShort: model.UserShort{Username: "user1", Password: hashPassword("111"), Email: "user1@bookstore.com", Role: "admin"}},
+		{UserShort: model.UserShort{Username: "user2", Password: hashPassword("222"), Email: "user2@bookstore.com", Role: "user"}},
+		{UserShort: model.UserShort{Username: "user3", Password: hashPassword("333"), Email: "user3@bookstore.com", Role: "user"}},
+		{UserShort: model.UserShort{Username: "user4", Password: hashPassword("444"), Email: "user4@bookstore.com", Role: "user"}},
 	}
 }
 

@@ -255,7 +255,7 @@ func (handler *UserHandler) RefreshToken() gin.HandlerFunc {
 			return
 		}
 
-		newAccessToken, err := refreshToken(token, handler.secretKey)
+		newAccessToken, newRefreshToken, err := refreshToken(token, handler.secretKey)
 		if err != nil {
 			logger.Log.Error("Error from token refresh: " + err.Error())
 			createErrorResponse(ctx, http.StatusInternalServerError, "Internal sever error while token refresh")
@@ -264,6 +264,7 @@ func (handler *UserHandler) RefreshToken() gin.HandlerFunc {
 
 		ctx.JSON(http.StatusOK, gin.H{
 			"access_token":  newAccessToken,
+			"refresh_token":  newRefreshToken,
 		})
 	}
 }

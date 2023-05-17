@@ -71,7 +71,7 @@ func generateAllTokens(user *model.User, secretKey []byte) (accessToken string, 
 		Username: user.Username,
 		Role:     user.Role,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Second * 10).Unix(),
+			ExpiresAt: time.Now().Add(time.Minute * 60).Unix(),
 		},
 	}
 	accessTokenToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
@@ -139,22 +139,36 @@ func validatePermissions(ctx *gin.Context, requiredID uint64, requiredUsername, 
 	return true
 }
 
-func refreshToken(refreshToken *model.JwtTokenClaims, secretKey []byte) (string, error) {
+func refreshToken(refreshToken *model.JwtTokenClaims, secretKey []byte) (string, string, error) {
 	accessTokenClaims := &model.JwtTokenClaims{
 		UserID:   refreshToken.UserID,
 		Username: refreshToken.Username,
 		Role:     refreshToken.Role,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Second * 10).Unix(),
+			ExpiresAt: time.Now().Add(time.Minute * 60).Unix(),
 		},
 	}
 	accessTokenToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
 	accessToken, err := accessTokenToken.SignedString(secretKey)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
-	return accessToken, nil
+	refreshTokenClaims := &model.JwtTokenClaims{
+		UserID:   refreshToken.UserID,
+		Username: refreshToken.Username,
+		Role:     refreshToken.Role,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 24 * 7).Unix(),
+		},
+	}
+	refreshTokenToken := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshTokenClaims)
+	newRefreshToken, err := refreshTokenToken.SignedString(secretKey)
+	if err != nil {
+		return "", "", err
+	}
+
+	return accessToken, newRefreshToken, nil
 }
 
 func parseLimitAndOffset(ctx *gin.Context) (limit, offset uint64, ok bool) {
