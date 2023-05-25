@@ -50,7 +50,7 @@
               >All books</router-link
             >
           </li>
-          <div class="search-container position-relative mx-1 mt-1">
+          <!-- <div class="search-container position-relative mx-1 mt-1">
             <input
               id="search"
               v-model="query"
@@ -76,6 +76,17 @@
               </li>
             </div>
           </div>
+          -->
+          <!-- <li class="nav-item mx-1 mt-1 ms-auto">
+            <router-link to="/about-us" class="nav-link px-2 text-muted"
+              >About us</router-link
+            >
+            </li>
+            <li class="nav-item mx-1 mt-1 ms-auto">
+            <router-link to="/contacts" class="nav-link px-2 text-muted"
+            >Contacts</router-link
+          >
+          </li>
           <li class="nav-item mx-1 mt-1 ms-auto">
             <router-link
               v-if="!isAuthed()"
@@ -92,6 +103,7 @@
               :class="{ active: $route.path === '/login' }"
               >Sign out</router-link
             >
+            
           </li>
           <li class="nav-item mx-1 mt-1">
             <router-link
@@ -101,6 +113,41 @@
               :class="{ active: $route.path === '/cart' }"
               >Cart</router-link
             >
+          </li> -->
+          <li class="nav-item mx-1 mt-1 ms-auto d-flex align-items-center">
+            <router-link to="/about-us" class="nav-link px-2 text-muted">
+              About us
+            </router-link>
+            <router-link to="/contacts" class="nav-link px-2 text-muted">
+              Contacts
+            </router-link>
+            <router-link
+              v-if="!isAuthed()"
+              to="/login"
+              class="nav-link ms-auto"
+              :class="{ active: $route.path === '/login' }"
+            >
+              Login/Sign Up
+            </router-link>
+            <router-link
+              v-else
+              @click="signOut()"
+              to="/login"
+              class="nav-link ms-auto"
+              :class="{ active: $route.path === '/login' }"
+            >
+              Sign out
+            </router-link>
+          </li>
+          <li class="nav-item mx-1 mt-1">
+            <router-link
+              v-if="isAuthed()"
+              to="/cart"
+              class="nav-link"
+              :class="{ active: $route.path === '/cart' }"
+            >
+              Cart
+            </router-link>
           </li>
         </ul>
 
@@ -111,6 +158,13 @@
         <div class="container">
           <footer class="py-3 my-4">
             <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+              <li class="nav-item mx-1 mt-1">
+                <router-link
+                  to="/"
+                  class="nav-brand"
+                  ><img src="/logo/logo.png" alt="Home" class="rounded" width="45" height="45" /></router-link
+                >
+              </li>
               <li class="nav-item">
                 <router-link to="/faq" class="nav-link px-2 text-muted"
                   >FAQs</router-link
@@ -131,8 +185,55 @@
                   >Feedback</router-link
                 >
               </li>
-            </ul>
+              <div class="search-container position-relative mx-1 mt-1">
+                <input
+                  id="search"
+                  v-model="query"
+                  @input="searchBooks"
+                  placeholder="Search for book"
+                  type="search"
+                  class="form-control mr-sm-2"
+                  aria-label="Search"
+                  autocomplete="off"
+                />
+                <div
+                  v-if="books.length > 0"
+                  class="search-results dropdown-menu show position-absolute"
+                  style="top: 100%"
+                >
+                  <li v-for="book in books" :key="book.id">
+                    <router-link
+                      :to="{ name: 'book', params: { id: book.id } }"
+                      class="dropdown-item"
+                    >
+                      {{ book.name }} by {{ book.author }}
+                    </router-link>
+                  </li>
+                </div>
+              </div>
+              <li class="nav-item mx-1 mt-1 ms-auto">
+                <a href="https://www.facebook.com/" class="nav-brand" style="float: right;">
+                  <img src="/logo/download.png" alt="facebook" class="rounded" width="45" height="45"/>
+                </a>
+                <a href="https://vk.com/" class="nav-brand" style="float: right;">
+                  <img src="/logo/VK_Compact_Logo_(2021-present).svg.png" alt="vk" class="rounded" width="45" height="45"/>
+                </a>
+              </li> 
+            </ul>> 
+          </div> 
+            <p class="text-left text-muted">Контакты</p>
+            <br/>
+            <p class="text-left text-muted">+375291531050</p> 
+            <p class="text-center">
+              <router-link to="/feedback" class="nav-link px-2 text-muted"
+                >Фидбек</router-link
+              ></p>
+            <p class="text-center">
+                <router-link to="/feedback" class="nav-link px-2 text-muted"
+                  >О нас</router-link
+                ></p>
             <p class="text-center text-muted">© 2023 Awesome Bookstore</p>
+          <div>
           </footer>
         </div>
       </div>
