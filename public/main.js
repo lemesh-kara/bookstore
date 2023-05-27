@@ -8,6 +8,7 @@ import FAQComp from "./FAQComp.js";
 import AboutUsComp from "./AboutUsComp.js";
 import ContactsComp from "./ContactsComp.js";
 import FeedbackComp from "./FeedbackComp.js";
+import NewsComp from "./NewsComp.js";
 import constants from "./constants.js";
 import Api from "./Api.js";
 
@@ -20,6 +21,7 @@ const routes = [
   { path: "/contacts", component: ContactsComp },
   { path: "/about-us", component: AboutUsComp },
   { path: "/feedback", component: FeedbackComp },
+  { path: "/news", component: NewsComp },
   { path: "/book/:id", component: BookComp, name: "book", props: true },
   { path: "/error/:error", component: ErrorComp, name: "error", props: true },
 ];

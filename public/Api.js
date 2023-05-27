@@ -20,6 +20,11 @@ class Api {
     );
   }
 
+  // news
+  fetchAllNews() {
+    return this.#makeGet(constants.allNewsRoute);
+  }
+
   // Top books
   fetchTopBooks() {
     return this.#makeGet(constants.topBooksRoute);

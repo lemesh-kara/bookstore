@@ -23,6 +23,7 @@ func main() {
 	config.UsersStorage = database.NewUsersStorage(db)
 	config.ReviewsStorage = database.NewReviewsStorage(db)
 	config.CartsStorage = database.NewCartsStorage(db)
+	config.NewsStorage = database.NewNewsStorage(db)
 
 	config.SecretKey = []byte(os.Getenv("SECRET_KEY"))
 

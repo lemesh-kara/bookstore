@@ -19,6 +19,8 @@ func registerApp(app *App) *gin.Engine {
 
 	registerCartHandlers(engine, app.ch, app.secretKey)
 
+	registerNewsHandlers(engine, app.nh)
+
 	registerStatic(engine)
 
 	return engine
@@ -87,6 +89,15 @@ func registerCartHandlers(engine *gin.Engine, handler *CartHandler, secretKey []
 	}
 }
 
+func registerNewsHandlers(engine *gin.Engine, handler *NewsHandler) {
+	group := engine.Group("/news")
+	{
+		group.GET("/:id", handler.GetNews())
+
+		group.GET("/all", handler.GetAllNews())
+	}
+}
+
 func registerStatic(engine *gin.Engine) {
 	engine.StaticFile("/", "./public/index.html")
 	engine.Static("/scripts", "./public")
@@ -94,4 +105,5 @@ func registerStatic(engine *gin.Engine) {
 	engine.Static("/cover", "./public/storage/cover")
 	engine.Static("/video", "./public/storage/video")
 	engine.Static("/logo", "./public/storage/logo")
+	engine.Static("/newspic", "./public/storage/newspic")
 }

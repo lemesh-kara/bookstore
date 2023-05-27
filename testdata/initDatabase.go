@@ -2,10 +2,10 @@ package testdata
 
 import (
 	"bookstore/model"
+	"fmt"
 	"math/rand"
 	"strconv"
 	"time"
-	"fmt"
 
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
@@ -30,11 +30,13 @@ func CreateTestData(db *gorm.DB) {
 	users := createUsers()
 	reviews := createReviewsAndUpdateBooks(books, users)
 	carts := createCarts(books, users)
+	news := createNews()
 
 	saveBooks(db, books)
 	saveUsers(db, users)
 	saveReviews(db, reviews)
 	saveCarts(db, carts)
+	saveNews(db, news)
 }
 
 func isDatabaseEmpty(db *gorm.DB) bool {
@@ -49,7 +51,7 @@ func hashPassword(password string) string {
 }
 
 func createTables(db *gorm.DB) {
-	db.AutoMigrate(&model.Book{}, &model.User{}, &model.Review{}, &model.Cart{})
+	db.AutoMigrate(&model.Book{}, &model.User{}, &model.Review{}, &model.Cart{}, &model.News{})
 
 	db.Model(&model.Review{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")
 	db.Model(&model.Review{}).AddForeignKey("book_id", "books(id)", "CASCADE", "CASCADE")
@@ -80,7 +82,6 @@ func createBooks() []model.Book {
 			}
 		}
 	}
-	
 
 	generatePublishedData := func() string {
 		return strconv.FormatInt(int64(2000+rand.Intn(20)), 10) + " Published by Awesome Store #" + strconv.FormatInt(int64(rand.Intn(6)), 10)
@@ -175,6 +176,20 @@ func createCarts(books []model.Book, users []model.User) (carts []model.Cart) {
 	return
 }
 
+func createNews() (news []model.News) {
+	for i := 0; i < 10; i++ {
+		news = append(news, model.News{
+			NewsShort: model.NewsShort{
+				Title:         "News title #" + strconv.Itoa(i),
+				Text:          strconv.Itoa(i) + " We added a new item here about how we are doing this bookstore and so on, please read the thing, this will really help us to build the store",
+				PathToPicture: "/newspic/pic" + strconv.Itoa(i) + ".jpg",
+			},
+		})
+	}
+
+	return
+}
+
 func saveBooks(db *gorm.DB, books []model.Book) {
 	isTableEmpty := func() bool {
 		var book model.Book
@@ -232,5 +247,20 @@ func saveCarts(db *gorm.DB, carts []model.Cart) {
 
 	for _, cart := range carts {
 		db.Create(&cart)
+	}
+}
+
+func saveNews(db *gorm.DB, news []model.News) {
+	isTableEmpty := func() bool {
+		var news model.News
+		return db.First(&news).Error != nil
+	}
+
+	if !isTableEmpty() {
+		return
+	}
+
+	for _, new := range news {
+		db.Create(&new)
 	}
 }

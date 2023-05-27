@@ -17,6 +17,7 @@ type App struct {
 	uh     *UserHandler
 	rh     *ReviewHandler
 	ch     *CartHandler
+	nh     *NewsHandler
 }
 
 type Config struct {
@@ -26,6 +27,7 @@ type Config struct {
 	UsersStorage *database.UsersStorage
 	ReviewsStorage *database.ReviewsStorage
 	CartsStorage *database.CartsStorage
+	NewsStorage *database.NewsStorage
 }
 
 func NewApp(config *Config) *App {
@@ -35,6 +37,7 @@ func NewApp(config *Config) *App {
 		uh: newUserHandler(config),
 		rh: newReviewHandler(config),
 		ch: newCartHandler(config),
+		nh: newNewsHandler(config),
 	}
 
 	app.engine = registerApp(app)

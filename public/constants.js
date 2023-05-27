@@ -17,6 +17,9 @@ const errorRoute = "/error";
 const accessTokenName = "access_token";
 const refreshTokenName = "refresh_token";
 
+const allNewsRoute = "/news/all";
+const newsRoute = "/news/";
+
 export default {
   backendRef,
   bookRoute,
@@ -36,4 +39,7 @@ export default {
 
   accessTokenName,
   refreshTokenName,
+
+  allNewsRoute,
+  newsRoute,
 };

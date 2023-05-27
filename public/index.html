@@ -218,6 +218,13 @@
                 >
 
                 <router-link
+                  to="/news"
+                  class="nav-link text-muted col-sm-12 d-flex justify-content-center"
+                  :class="{ active: $route.path === '/news' }"
+                  >News</router-link
+                >
+
+                <router-link
                   to="/faq"
                   class="nav-link text-muted col-sm-12 d-flex justify-content-center"
                   >FAQs</router-link
