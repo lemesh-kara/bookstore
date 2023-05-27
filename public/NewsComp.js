@@ -1,5 +1,5 @@
 import Api from "./Api.js";
-import ModalBookComp from "./ModalBookComp.js";
+import ModelNewsComp from "./ModelNewsComp.js";
 import ToastComp from "./ToastComp.js";
 
 export default {
@@ -11,7 +11,7 @@ export default {
   created() {
     this.api = new Api(this.$router);
   },
-  components: { ModalBookComp, ToastComp },
+  components: { ModelNewsComp, ToastComp },
   template: `
 <ToastComp ref="toast"></ToastComp>
 <div class="container">
@@ -23,11 +23,12 @@ export default {
 
       <div class="row align-items-center">
         <div class="col-sm-4">
-          <img :src=news.path_to_picture class="img-fluid m-1" alt="Book Cover">
+          <img :src=news.path_to_picture class="img-fluid m-1" alt="News Cover">
         </div>
         <div class="col-sm-8">
           <h2>{{ news.title }}</h2>
-          <p class="mb-0"><strong>Text:</strong> {{ news.text }}</p>
+          <p class="mb-0"><strong>Text:</strong> {{ truncateString(news.text) }}</p>
+          <ModelNewsComp :news="news"></ModelNewsComp>
         </div>
       </div>
 
@@ -58,6 +59,13 @@ export default {
     },
     isAuthed() {
       return this.api.isAuthorized();
+    },
+    truncateString(text) {
+      if (text.length <= 80) {
+        return text;
+      } else {
+        return text.slice(0, 80) + "...";
+      }
     },
   },
 };

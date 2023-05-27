@@ -24,6 +24,9 @@ class Api {
   fetchAllNews() {
     return this.#makeGet(constants.allNewsRoute);
   }
+  fetchNews(id) {
+    return this.#makeGet(constants.newsRoute + "/" + id);
+  }
 
   // Top books
   fetchTopBooks() {
